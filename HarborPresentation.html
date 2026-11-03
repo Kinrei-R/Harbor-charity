@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harbor - Project Architecture & Technical Presentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="h-9 w-9 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-lg text-white shadow-md shadow-indigo-200">
+          H
+        </div>
+        <div>
+          <h1 class="text-base font-bold tracking-tight text-slate-900 leading-none">HARBOR</h1>
+          <p class="text-xs text-slate-500 mt-1">Laravel Crowdfunding Platform Architecture</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 text-xs bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full border border-slate-200 font-medium">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <span>Laravel 11/12 • Blade • MySQL • Alpine.js</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-8" x-data="{ activeTab: 'lifecycle' }">
+
+    <!-- Top Action Bar -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200">
+      <div>
+        <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Project Walkthrough & Technical Flow</h2>
+        <p class="text-sm text-slate-500 mt-1">A structured overview of the development lifecycle, request flow, and directory layout.</p>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex p-1 bg-slate-200/70 rounded-xl border border-slate-300/50 self-start sm:self-auto">
+        <button 
+          @click="activeTab = 'lifecycle'" 
+          :class="activeTab === 'lifecycle' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+          class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-150 flex items-center space-x-2">
+          <i class="fa-solid fa-list-check"></i>
+          <span>1. Build Lifecycle</span>
+        </button>
+        <button 
+          @click="activeTab = 'mvc'" 
+          :class="activeTab === 'mvc' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+          class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-150 flex items-center space-x-2">
+          <i class="fa-solid fa-diagram-project"></i>
+          <span>2. MVC Request Flow</span>
+        </button>
+        <button 
+          @click="activeTab = 'structure'" 
+          :class="activeTab === 'structure' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+          class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-150 flex items-center space-x-2">
+          <i class="fa-solid fa-folder-tree"></i>
+          <span>3. Directory Structure</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 1: BUILD LIFECYCLE -->
+    <div x-show="activeTab === 'lifecycle'" class="space-y-6" x-transition>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Step 1 -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-indigo-200 transition duration-200">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="w-7 h-7 rounded-md bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-100">01</span>
+            <h3 class="font-semibold text-slate-900 text-sm">Environment & Setup</h3>
+          </div>
+          <ul class="space-y-2.5 text-xs text-slate-600">
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Start Apache & MySQL via XAMPP Control Panel</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Create MySQL database <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">harbor_db</code> in phpMyAdmin</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Install Laravel via Composer & configure environment (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">.env</code>)</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Scaffold auth using Laravel Breeze Starter Kit</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Initialize Vite, Tailwind CSS, and Alpine.js assets</span></li>
+          </ul>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-indigo-200 transition duration-200">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="w-7 h-7 rounded-md bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-100">02</span>
+            <h3 class="font-semibold text-slate-900 text-sm">Database & Models</h3>
+          </div>
+          <ul class="space-y-2.5 text-xs text-slate-600">
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Generate Models + Migrations (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">-m</code> flag)</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Define table schemas, columns, types, and foreign key relations</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Run <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">php artisan migrate</code> to build MySQL tables</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Configure <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">$fillable</code> properties for mass assignment protection</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Set up Eloquent relationships (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">hasMany</code>, <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">belongsTo</code>)</span></li>
+          </ul>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-indigo-200 transition duration-200">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="w-7 h-7 rounded-md bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-100">03</span>
+            <h3 class="font-semibold text-slate-900 text-sm">Controllers & Business Logic</h3>
+          </div>
+          <ul class="space-y-2.5 text-xs text-slate-600">
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Create HTTP controllers (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">CampaignController</code>, <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">DonationController</code>)</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Extract validation rules into dedicated Form Request classes</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Implement category filtering & dynamic donation logic</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Structure isolated controllers inside <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">Admin/</code> namespace</span></li>
+          </ul>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-indigo-200 transition duration-200">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="w-7 h-7 rounded-md bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-100">04</span>
+            <h3 class="font-semibold text-slate-900 text-sm">Routing & Authorization</h3>
+          </div>
+          <ul class="space-y-2.5 text-xs text-slate-600">
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Register web endpoints inside <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">routes/web.php</code></span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Assign explicit route names (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">->name('...')</code>) for maintainability</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Apply authentication and role middleware for route protection</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Handle parameter filtering (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">?category=medical</code>)</span></li>
+          </ul>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-indigo-200 transition duration-200">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="w-7 h-7 rounded-md bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-100">05</span>
+            <h3 class="font-semibold text-slate-900 text-sm">Views & User Interface</h3>
+          </div>
+          <ul class="space-y-2.5 text-xs text-slate-600">
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Build reusable master layout wrappers (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">&lt;x-app-layout&gt;</code>)</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Render database collections using Blade loops (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">@foreach</code>)</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Add interactive dropdowns & overlays using Alpine.js</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Apply Tailwind CSS for dynamic styling and responsive design</span></li>
+          </ul>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-indigo-200 transition duration-200">
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="w-7 h-7 rounded-md bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-100">06</span>
+            <h3 class="font-semibold text-slate-900 text-sm">Testing & Execution</h3>
+          </div>
+          <ul class="space-y-2.5 text-xs text-slate-600">
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Launch development server using <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">php artisan serve</code></span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Validate registration, campaign creation, and donation flow</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Implement safety checks with <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">Route::has()</code> helpers</span></li>
+            <li class="flex items-start"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5 mr-2"></i><span>Perform cross-device responsive UI testing</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: MVC REQUEST FLOW -->
+    <div x-show="activeTab === 'mvc'" class="space-y-6" x-transition>
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <h3 class="text-base font-bold text-slate-900 mb-6">HTTP Request Lifecycle in Harbor</h3>
+
+        <div class="relative border-l-2 border-indigo-200 ml-4 space-y-8 pl-6">
+
+          <!-- Step 1 -->
+          <div class="relative">
+            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></span>
+            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Step 1: HTTP Request & Route Resolution</h4>
+            <p class="text-xs text-slate-600 mt-1">The browser sends a GET request (e.g., <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">/causes?category=medical</code>). The router evaluates the request and matches it to a defined controller action inside <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">routes/web.php</code>.</p>
+            <div class="mt-2 bg-slate-900 text-slate-100 p-3 rounded-lg text-xs font-mono">
+              <code class="text-emerald-400">Route::get('/causes', [CampaignController::class, 'index'])->name('causes.index');</code>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative">
+            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></span>
+            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Step 2: Controller Processing</h4>
+            <p class="text-xs text-slate-600 mt-1">The method <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">CampaignController@index</code> receives request parameters and coordinates database queries with the Model.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative">
+            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></span>
+            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Step 3: Eloquent Model & Database Fetch</h4>
+            <p class="text-xs text-slate-600 mt-1">The <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">Campaign</code> Model executes the SQL query against MySQL and returns dynamic records to the controller.</p>
+            <div class="mt-2 bg-slate-900 text-slate-100 p-3 rounded-lg text-xs font-mono">
+              <code class="text-sky-300">$campaigns = Campaign::when($request->category, fn($q) => $q->where('category', $request->category))->get();</code>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="relative">
+            <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></span>
+            <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Step 4: View Compilation & HTML Response</h4>
+            <p class="text-xs text-slate-600 mt-1">The Controller injects the collection into the Blade view, which compiles component structures, styling, and interactivity into HTML sent back to the browser.</p>
+            <div class="mt-2 bg-slate-900 text-slate-100 p-3 rounded-lg text-xs font-mono">
+              <code class="text-purple-300">return view('causes.index', compact('campaigns'));</code>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: PROJECT STRUCTURE -->
+    <div x-show="activeTab === 'structure'" class="space-y-6" x-transition>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+          <h3 class="text-sm font-bold text-slate-900 mb-4 flex items-center">
+            <i class="fa-solid fa-sitemap text-indigo-600 mr-2"></i> Application Logic (app/)
+          </h3>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg text-xs border border-slate-800 leading-relaxed overflow-x-auto">
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Admin/            <span class="text-slate-500"># Admin management logic</span>
+│   │   ├── Auth/             <span class="text-slate-500"># Breeze authentication</span>
+│   │   ├── CampaignController.php
+│   │   ├── DonationController.php
+│   │   └── ProfileController.php
+│   ├── Middleware/           <span class="text-slate-500"># Route guards</span>
+│   └── Requests/             <span class="text-slate-500"># Form validation classes</span>
+└── Models/
+    ├── Campaign.php          <span class="text-slate-500"># Campaign domain model</span>
+    ├── Donation.php          <span class="text-slate-500"># Donation records model</span>
+    └── User.php              <span class="text-slate-500"># User authentication model</span></pre>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+          <h3 class="text-sm font-bold text-slate-900 mb-4 flex items-center">
+            <i class="fa-solid fa-layer-group text-indigo-600 mr-2"></i> Database & Views
+          </h3>
+          <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg text-xs border border-slate-800 leading-relaxed overflow-x-auto">
+database/
+├── migrations/               <span class="text-slate-500"># Table schemas</span>
+└── seeders/                  <span class="text-slate-500"># Test data seeds</span>
+
+resources/
+└── views/
+    ├── components/           <span class="text-slate-500"># UI Blade components</span>
+    ├── layouts/              <span class="text-slate-500"># Base layouts (app.blade.php)</span>
+    ├── admin/                <span class="text-slate-500"># Admin management views</span>
+    └── welcome.blade.php     <span class="text-slate-500"># Homepage view</span>
+
+routes/
+└── web.php                   <span class="text-slate-500"># Application HTTP routes</span></pre>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+      <div>Project Presentation • <strong>Harbor Crowdfunding Platform</strong></div>
+      <div>Designed with Laravel & Blade Architecture</div>
+    </div>
+  </footer>
+
+</body>
+</html>
